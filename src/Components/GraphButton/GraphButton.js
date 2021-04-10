@@ -2,10 +2,8 @@ import React, {useState} from 'react';
 
 const GraphButton = (props) => {
     const [isEmpty, setIsEmpty] = useState(true);
-    const cbLink = `https://twitter.com/Wikipedia`;
     const handleRedirect = () => {
-        
-        window.location.href = `https://oauth.vk.com/authorize?client_id=7819309&display=popup&redirect_uri=${cbLink}&response_type=code&v=5.120&state=4194308`;
+        window.open(`https://oauth.vk.com/authorize?client_id=7819309&display=page&response_type=code&v=5.120&state=4194308`)
     };
     const postData = async (url, data) => {
         const res = await fetch(url, {
@@ -23,7 +21,7 @@ const GraphButton = (props) => {
     }
     const buttonOnClick = () => {
         props.data.accessCode === '' ? setIsEmpty(true) : setIsEmpty(false)
-        isEmpty ? handleRedirect() : buildGraph()
+        isEmpty === true ? handleRedirect() : buildGraph()
     }
     return (
         <button onClick={buttonOnClick} className={props.styleProp}>

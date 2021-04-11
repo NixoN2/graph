@@ -7,21 +7,23 @@ const GraphButton = (props) => {
     };
     const postData = async (url, data) => {
         const res = await fetch(url, {
+            'Content-Type': 'application/json',
             method: 'POST',
             body: JSON.stringify(data),
         });
         return res.json();
     }
     const buildGraph = async() => {
-        await postData('http://localhost:8000/', props.plotType === 'wall' ? 
-                {owner_id: props.data.owner_id, offset: props.data.offset, count: props.data.count, filter: 'all', access_token: props.data.accessCode} : 
+        console.log(props.data)
+        await postData(`http://localhost:8000/${props.sourceType}/${props.plotType}/`, props.sourceType === 'wall' ? 
+                {owner_id: props.data.owner, offset: props.data.offset, count: props.data.count, filter: 'all', access_token: props.data.accessCode} : 
                 {group_id: props.data.group_id, app_id: props.data.app_id, timestamp_from: props.data.from, timestamp_to: props.data.to, interval: props.data.interval, access_token: props.data.accessCode}
-        ).then(data => props.setGraph(data))
+        ).then(data => console.log(data))
 
     }
     const buttonOnClick = () => {
-        props.data.accessCode === '' ? setIsEmpty(true) : setIsEmpty(false)
         isEmpty === true ? handleRedirect() : buildGraph()
+        props.data.accessCode === '' ? setIsEmpty(true) : setIsEmpty(false)
     }
     return (
         <button onClick={buttonOnClick} className={props.styleProp}>
